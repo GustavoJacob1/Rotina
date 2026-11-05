@@ -1,0 +1,35 @@
+{
+  "name": "rotina-gerenciador",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Rotina — central de gerenciamento da rotina pessoal (agenda, tarefas, estudos, hábitos, metas e estatísticas).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "6.3.1",
+    "@fullcalendar/core": "6.1.22",
+    "@fullcalendar/daygrid": "6.1.22",
+    "@fullcalendar/interaction": "6.1.22",
+    "@fullcalendar/react": "6.1.22",
+    "@fullcalendar/timegrid": "6.1.22",
+    "date-fns": "3.6.0",
+    "lucide-react": "0.468.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "6.30.6",
+    "recharts": "2.15.4",
+    "zustand": "4.5.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "4.7.0",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.49",
+    "tailwindcss": "3.4.19",
+    "vite": "5.4.21"
+  }
+}

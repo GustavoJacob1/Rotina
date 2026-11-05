@@ -1,0 +1,278 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Tokens de tema (RGB sem vírgula para suportar opacidade no Tailwind) ===== */
+:root {
+  --bg: 245 246 250;
+  --surface: 255 255 255;
+  --surface-2: 243 244 249;
+  --surface-3: 232 235 243;
+  --line: 224 227 237;
+  --ink: 17 19 28;
+  --ink-2: 61 66 85;
+  --muted: 104 111 133;
+  --brand: 37 99 235;
+  --brand-2: 124 58 237;
+  --good: 22 163 74;
+  --warn: 217 119 6;
+  --bad: 220 38 38;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: 10 12 19;
+  --surface: 18 21 32;
+  --surface-2: 24 28 42;
+  --surface-3: 33 38 57;
+  --line: 39 44 64;
+  --ink: 233 235 243;
+  --ink-2: 181 186 205;
+  --muted: 128 135 160;
+  --brand: 91 140 255;
+  --brand-2: 151 117 250;
+  --good: 52 199 120;
+  --warn: 245 166 35;
+  --bad: 248 96 96;
+  color-scheme: dark;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-bg text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  * {
+    @apply border-line;
+  }
+  /* evita que gráficos/textos longos estourem a largura de colunas de grid */
+  .grid > * {
+    min-width: 0;
+  }
+  ::selection {
+    background: rgb(var(--brand) / 0.3);
+  }
+  input[type='time']::-webkit-calendar-picker-indicator,
+  input[type='date']::-webkit-calendar-picker-indicator,
+  input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+  }
+  .dark input[type='time']::-webkit-calendar-picker-indicator,
+  .dark input[type='date']::-webkit-calendar-picker-indicator,
+  .dark input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-card;
+  }
+  .field {
+    @apply w-full rounded-xl border border-line bg-surface-2 px-3 py-2 text-sm text-ink outline-none transition
+      placeholder:text-muted focus:border-brand/60 focus:ring-2 focus:ring-brand/20;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-medium text-ink-2;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium;
+  }
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--line)) transparent;
+  }
+  .gradient-brand {
+    background-image: linear-gradient(135deg, rgb(var(--brand)), rgb(var(--brand-2)));
+  }
+  .text-gradient {
+    background-image: linear-gradient(135deg, rgb(var(--brand)), rgb(var(--brand-2)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--line));
+  border-radius: 999px;
+  border: 2px solid rgb(var(--bg));
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ===== FullCalendar — integração com o tema ===== */
+.fc {
+  --fc-border-color: rgb(var(--line));
+  --fc-page-bg-color: rgb(var(--surface));
+  --fc-neutral-bg-color: rgb(var(--surface-2));
+  --fc-list-event-hover-bg-color: rgb(var(--surface-2));
+  --fc-today-bg-color: rgb(var(--brand) / 0.06);
+  --fc-now-indicator-color: rgb(var(--bad));
+  --fc-highlight-color: rgb(var(--brand) / 0.18);
+  --fc-event-border-color: transparent;
+  --fc-small-font-size: 0.75rem;
+  font-size: 0.8125rem;
+  color: rgb(var(--ink));
+}
+.fc .fc-scrollgrid {
+  border-radius: 14px;
+  overflow: hidden;
+}
+.fc-theme-standard .fc-scrollgrid {
+  border-color: rgb(var(--line));
+}
+.fc .fc-col-header-cell {
+  background: rgb(var(--surface-2));
+}
+.fc .fc-col-header-cell-cushion {
+  padding: 8px 4px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: rgb(var(--ink-2));
+}
+.fc .fc-timegrid-slot {
+  height: 2.6em;
+}
+.fc .fc-timegrid-slot-minor {
+  border-top-style: dotted;
+}
+.fc .fc-timegrid-slot-label-cushion,
+.fc .fc-timegrid-axis-cushion {
+  font-size: 0.7rem;
+  color: rgb(var(--muted));
+}
+.fc .fc-daygrid-day-number {
+  font-size: 0.75rem;
+  color: rgb(var(--ink-2));
+  padding: 6px 8px;
+}
+.fc .fc-day-today .fc-daygrid-day-number {
+  background: rgb(var(--brand));
+  color: white;
+  border-radius: 999px;
+  margin: 4px;
+  padding: 2px 7px;
+}
+.fc .fc-day-other .fc-daygrid-day-top {
+  opacity: 0.4;
+}
+.fc .fc-event {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+  cursor: pointer;
+  transition: filter 120ms ease, transform 120ms ease;
+}
+.fc .fc-event:hover {
+  filter: brightness(1.08);
+}
+.fc .fc-timegrid-event .fc-event-main {
+  padding: 3px 6px;
+}
+.fc .fc-daygrid-event {
+  padding: 1px 4px;
+  margin-top: 2px;
+}
+.fc .fc-daygrid-dot-event:hover {
+  background: rgb(var(--surface-2));
+}
+.fc .fc-event.ev-conflict {
+  outline: 2px solid rgb(var(--bad));
+  outline-offset: -2px;
+}
+.fc .fc-bg-event.ev-free {
+  background: repeating-linear-gradient(
+    135deg,
+    rgb(var(--good) / 0.1) 0 6px,
+    rgb(var(--good) / 0.04) 6px 12px
+  );
+  opacity: 1;
+}
+.fc .fc-bg-event.ev-free .fc-event-title {
+  font-size: 0.65rem;
+  font-style: normal;
+  color: rgb(var(--good));
+  font-weight: 600;
+  margin: 2px 4px;
+}
+.fc .fc-bg-event.ev-sleep {
+  background: repeating-linear-gradient(
+    45deg,
+    rgb(var(--muted) / 0.12) 0 6px,
+    rgb(var(--muted) / 0.05) 6px 12px
+  );
+  opacity: 1;
+}
+.fc .fc-bg-event.ev-sleep .fc-event-title {
+  font-size: 0.65rem;
+  font-style: normal;
+  color: rgb(var(--muted));
+  margin: 2px 4px;
+}
+.fc .fc-more-link {
+  color: rgb(var(--brand));
+  font-weight: 600;
+}
+.fc .fc-popover {
+  background: rgb(var(--surface));
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px -12px rgb(0 0 0 / 0.45);
+}
+.fc .fc-popover-header {
+  background: rgb(var(--surface-2));
+}
+.fc .fc-timegrid-now-indicator-line {
+  border-width: 2px 0 0;
+}
+.fc-direction-ltr .fc-timegrid-col-events {
+  margin: 0 4px 0 2px;
+}
+.fc .fc-event-resizer-end {
+  height: 10px;
+}
+.fc .fc-highlight {
+  border-radius: 8px;
+}
+
+/* Animações de entrada de página */
+.page-enter {
+  animation: slide-up 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+/* Primeira letra maiúscula (datas em pt-BR vêm em minúsculas) */
+.cap-first::first-letter {
+  text-transform: uppercase;
+}
